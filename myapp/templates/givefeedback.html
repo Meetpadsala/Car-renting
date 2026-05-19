@@ -1,0 +1,51 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %}Give Feedback - Car Rental{% endblock %}
+{% block body %}
+<div class="container-fluid py-5">
+    <div class="container pt-5 pb-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 text-center mb-5">Rate Your Rental Experience</h1>
+                {% if bookings %}
+                <div class="row">
+                    {% for b in bookings %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>{{ b.vehicle }}</h5>
+                                <p>Booking: {{ b.booking_from }} to {{ b.booking_to }}</p>
+                                <form method="post" action="/submitfeedback">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="booking_id" value="{{ b.id }}">
+                                    <div class="rating">
+                                        <input type="radio" id="star5{{ forloop.counter }}" name="rating" value="5" /><label for="star5{{ forloop.counter }}" title="5 star">★</label>
+                                        <input type="radio" id="star4{{ forloop.counter }}" name="rating" value="4" /><label for="star4{{ forloop.counter }}" title="4 star">★</label>
+                                        <input type="radio" id="star3{{ forloop.counter }}" name="rating" value="3" /><label for="star3{{ forloop.counter }}" title="3 star">★</label>
+                                        <input type="radio" id="star2{{ forloop.counter }}" name="rating" value="2" /><label for="star2{{ forloop.counter }}" title="2 star">★</label>
+                                        <input type="radio" id="star1{{ forloop.counter }}" name="rating" value="1" /><label for="star1{{ forloop.counter }}" title="1 star">★</label>
+                                    </div>
+                                    <textarea name="comment" class="form-control mt-3" rows="4" placeholder="Your feedback..."></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3">Submit Feedback</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <p>No completed bookings available for feedback.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.rating { unicode-bidi: bidi-override; direction: rtl; text-align: left;}
+.rating > span { display: inline-block;  position: relative; width: 1.1em;}
+.rating > span:hover:before, 
+.rating > span:hover ~ span:before { content: "★"; position: absolute; left: 0; color: gold;}
+</style>
+{% endblock %}

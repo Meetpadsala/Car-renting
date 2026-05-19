@@ -1,0 +1,49 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}My Cars - Car Rental {% endblock %}
+{% block body %}
+
+
+     <!-- Page Header Start -->
+    <div class="container-fluid page-header" style="margin-top:5px;">
+        <h1 class="display-3 text-uppercase text-white mb-3">My Vehicles</h1>
+<!--        <div class="d-inline-flex text-white">-->
+<!--            <h6 class="text-uppercase m-0"><a class="text-white" href="/">Home</a></h6>-->
+<!--            <h6 class="text-body m-0 px-3">/</h6>-->
+<!--            <h6 class="text-uppercase text-body m-0">My Vehicles</h6>-->
+<!--        </div>-->
+    </div>
+    <!-- Page Header Start -->
+
+<!-- Rent A Car Start -->
+    <div class="container-fluid py-5" style="margin-top:-100px;">
+        <div class="container pt-5 pb-3">
+<!--            <h1 class="display-4 text-uppercase text-center mb-5">My Vehicles</h1>-->
+            <div class="row">
+{% for cd in cars %}
+                <div class="col-lg-4 col-md-6 mb-2">
+                    <div class="rent-item mb-4">
+        <img class="mb-4 p-4" src="{% if cd.model_photo %}/media/{{cd.model_photo}}{% else %}{% static 'img/car-rent-1.png' %}{% endif %}" height="200px" alt="">
+                        <h4 class="text-uppercase mb-4">{{cd.company}} {{cd.model_name}}</h4>
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="px-2">
+                                <i class="fa fa-car text-primary mr-1"></i>
+                                <span>{{cd.model_year}}</span>
+                            </div>
+                            <div class="px-2 border-left ">
+                                <i class="fa fa-map-marker text-primary mr-1"></i>
+                                <span>{{cd.area}}</span>
+                            </div>
+
+                        </div>
+                        <a class="btn btn-primary px-3" href="/viewcar/{{cd.id}}">&#8377;{{cd.base_rent_perday}}/Day</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Rent A Car End -->
+
+{% endblock %}

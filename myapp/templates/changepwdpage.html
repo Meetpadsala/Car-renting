@@ -1,0 +1,145 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Reset Password - Car Rental {% endblock %}
+{% block body %}
+
+
+     <!-- Page Header Start -->
+    <div class="container-fluid page-header" style="margin-top:5px;">
+
+<h1 class="display-3 text-uppercase text-white mb-3">Reset Password via Link</h1>
+
+<!--        <div class="d-inline-flex text-white">-->
+<!--            <h6 class="text-uppercase m-0"><a class="text-white" href="/">Home</a></h6>-->
+<!--            <h6 class="text-body m-0 px-3">/</h6>-->
+<!--            <h6 class="text-uppercase text-body m-0">Login</h6>-->
+<!--        </div>-->
+    </div>
+    <!-- Page Header Start -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid py-5" style="margin-top:-50px;">
+        <div class="container pt-5 pb-3">
+<!--            <h1 class="display-4 text-uppercase text-center mb-5">Change Password</h1>-->
+            <div class="row">
+                <div class="col-lg-2 mb-2">
+
+                </div>
+                <div class="col-lg-8 mb-2">
+                    <div class="contact-form bg-light mb-4" style="padding: 30px;">
+                        <form action="/changepwd" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <input type="hidden" name="token" value="{{ token }}">
+                                    <input type="hidden" name="email" value="{{ email }}">
+                                </div>
+                                <div class="col-12 form-group">
+                                    <input type="password" name="new_pwd" id="passwordnew" class="form-control p-4" placeholder="New Password" required="required">
+                                <img src="{% static 'img/pass-hide.png' %}" class="pass-icon" id="pass-icon-new" onclick="pass1()" style="width:25px; margin-left:630px; margin-top:-60px;">
+                                </div>
+                                <div class="col-12 form-group">
+                                    <input type="password" name="confirm_pwd" id="passwordcon" class="form-control p-4" placeholder="Confirm New Password" required="required">
+                                <img src="{% static 'img/pass-hide.png' %}" class="pass-icon" id="pass-icon" onclick="pass2()" style="width:25px; margin-left:630px; margin-top:-60px;">
+                                </div>
+                                <span id="passwordError" class="error"></span>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-primary py-3 px-5" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+
+
+<script>
+    function setupFormValidation(formId) {
+      var form = document.getElementById(formId);
+      form.addEventListener('submit', function(event) {
+        // Reset error messages
+        clearErrors(form);
+
+        // Validate password
+        var passwordInput = form.querySelector('[name="password1"]');
+        var password = passwordInput.value.trim();
+        if (password === '') {
+          displayError(form, 'passwordError', 'Password is required');
+          event.preventDefault();
+        } else if (!isValidPassword(password)) {
+          displayError(form, 'passwordError', 'Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be between 8 and 16 characters.');
+          event.preventDefault();
+        }
+      });
+    }
+
+    function isValidPassword(password) {
+      // Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be between 8 and 16 characters.
+      var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+      return passwordRegex.test(password);
+    }
+
+    function displayError(form, id, message) {
+      var errorElement = form.querySelector('#' + id);
+      errorElement.textContent = message;
+    }
+
+    function clearErrors(form) {
+      var errorElements = form.getElementsByClassName('error');
+      for (var i = 0; i < errorElements.length; i++) {
+        errorElements[i].textContent = '';
+      }
+    }
+
+    setupFormValidation('registerform');
+</script>
+<script>
+    // Removed old password toggle JS
+        var passField = document.getElementById("passwordold");
+        var passIcon = document.getElementById("pass-icon-old");
+
+        if (passField.type === "password") {
+            passField.type = "text";
+            passIcon.src = "{% static 'img/pass-show.png' %}"; // Change the icon to hide
+        } else {
+            passField.type = "password";
+            passIcon.src = "{% static 'img/pass-hide.png' %}"; // Change the icon to show
+        }
+    }
+</script>
+<script>
+    function pass1() {
+        var passField = document.getElementById("passwordnew");
+        var passIcon = document.getElementById("pass-icon-new");
+
+        if (passField.type === "password") {
+            passField.type = "text";
+            passIcon.src = "{% static 'img/pass-show.png' %}"; // Change the icon to hide
+        } else {
+            passField.type = "password";
+            passIcon.src = "{% static 'img/pass-hide.png' %}"; // Change the icon to show
+        }
+    }
+</script>
+<script>
+    function pass2() {
+        var passField = document.getElementById("passwordcon");
+        var passIcon = document.getElementById("pass-icon");
+
+        if (passField.type === "password") {
+            passField.type = "text";
+            passIcon.src = "{% static 'img/pass-show.png' %}"; // Change the icon to hide
+        } else {
+            passField.type = "password";
+            passIcon.src = "{% static 'img/pass-hide.png' %}"; // Change the icon to show
+        }
+    }
+</script>
+{% endblock %}

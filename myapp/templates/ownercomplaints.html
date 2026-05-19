@@ -1,0 +1,46 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Owner Complaints - Car Rental{% endblock %}
+{% block body %}
+
+<!-- Page Header -->
+<div class="container-fluid page-header" style="margin-top:5px;">
+    <h1 class="display-3 text-uppercase text-white mb-3">Complaints Against My Vehicles</h1>
+</div>
+
+<!-- Complaints List -->
+<div class="container-fluid py-5">
+    <div class="container pt-5 pb-3">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                {% if complaints %}
+                <table class="table table-striped">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Renter</th>
+                            <th>Vehicle</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td>{{ c.user.name }}</td>
+                            <td>{{ c.vehicle }}</td>
+                            <td>{{ c.description }}</td>
+                            <td>{{ c.date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-center">No complaints against your vehicles.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

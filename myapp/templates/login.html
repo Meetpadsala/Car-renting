@@ -1,0 +1,81 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Log In - Car Rental {% endblock %}
+
+{% block body %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header" style="margin-top:5px;">
+    <h1 class="display-3 text-uppercase text-white mb-3">Login</h1>
+</div>
+<!-- Page Header End -->
+
+<!-- Contact Start -->
+<div class="container-fluid py-5" style="margin-top:-50px;">
+    <div class="container pt-5 pb-3">
+        <div class="row">
+            <div class="col-lg-2 mb-2">
+            </div>
+            <div class="col-lg-8 mb-2">
+                <div class="contact-form bg-light mb-4" style="padding: 30px;">
+
+                        <form id="loginForm" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <input type="email" name="email" class="form-control p-4" placeholder="Your Email" required="required">
+                                </div>
+                                <div class="col-12 form-group">
+                                    <input type="password" name="password" id="password" class="form-control p-4" placeholder="Your Password" required="required">
+                                    <img src="{% static 'img/pass-hide.png' %}" class="pass-icon" id="pass-icon" onclick="pass()" style="width:25px; margin-left:630px; margin-top:-60px;">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary py-3 px-5" type="submit">Sign In</button>
+                            <a href="/forgotpasswordpage" style="margin-left:350px;">Forgot Password?</a>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/checkuser/',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = response.redirect;
+                    } else {
+                        alert(response.message || 'Login failed');
+                    }
+                },
+                error: function() {
+                    alert('Login error');
+                }
+            });
+        });
+    });
+
+    function pass() {
+        var passField = document.getElementById("password");
+        var passIcon = document.getElementById("pass-icon");
+
+        if (passField.type === "password") {
+            passField.type = "text";
+            passIcon.src = "{% static 'img/pass-show.png' %}";
+        } else {
+            passField.type = "password";
+            passIcon.src = "{% static 'img/pass-hide.png' %}";
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}

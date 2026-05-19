@@ -1,0 +1,43 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Car Comparison{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-5 bg-light">
+  <div class="container">
+    <h1 class="text-center mb-5">Car Comparison</h1>
+    {% if cars %}
+    <div class="row g-4">
+      {% for car in cars %}
+      <div class="col-lg-3 col-md-6">
+        <div class="card h-100 shadow">
+          <img src="/media/{{car.model_photo}}" class="card-img-top" alt="{{car.model_name}}" style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title">{{car.company}} {{car.model_name}} ({{car.model_year}})</h5>
+            <p class="card-text">
+              <strong>Location:</strong> {{car.area}}, {{car.city}}<br>
+              <strong>Base Rent:</strong> ₹{{car.base_rent_perday}}/day<br>
+              <strong>Rating:</strong> {{car.avg_rating|floatformat:1|default:"N/A" }} ({{car.num_reviews|default:0}} reviews)
+            </p>
+            <a href="/viewcar/{{car.id}}" class="btn btn-primary w-100 mb-2">View Details</a>
+            <form method="post" action="/compare/" style="display: inline;">
+              {% csrf_token %}
+              <input type="hidden" name="remove_id" value="{{car.id}}">
+              <button type="submit" class="btn btn-outline-danger w-100">Remove from Compare</button>
+            </form>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="/vehicles/" class="btn btn-primary">Browse More Cars</a>
+      <a href="/compare/" class="btn btn-secondary ms-2" onclick="sessionStorage.clearCompare();">Clear Comparison</a>
+    </div>
+    {% else %}
+    <div class="text-center">
+      <h3>No cars selected for comparison</h3>
+      <a href="/vehicles/" class="btn btn-primary">Start Comparing</a>
+    </div>
+    {% endif %}
+  </

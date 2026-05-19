@@ -1,0 +1,40 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Booking Confirmation - Car Rental{% endblock %}
+
+{% block body %}
+<div class="container-fluid page-header">
+    <h1 class="display-3 text-uppercase text-white mb-3">Booking Confirmed</h1>
+</div>
+
+<div class="container-fluid py-5">
+    <div class="container pt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center bg-light p-5 mb-5">
+                    <i class="fa fa-check-circle text-success display-1 mb-4"></i>
+                    <h1 class="display-4 mb-4">Booking Successful!</h1>
+                    <p class="lead mb-4">Your booking has been confirmed. You will receive an email with booking details shortly.</p>
+                    <div class="card border-success mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Booking Details</h5>
+                            <ul class="list-unstyled">
+                                <li>Booking ID: <strong>{{ booking.id }}</strong></li>
+                                <li>Vehicle: <strong>{{ booking.vehicle }}</strong></li>
+                                <li>From: <strong>{{ booking.booking_from|date:"Y-m-d" }}</strong></li>
+                                <li>To: <strong>{{ booking.booking_to|date:"Y-m-d" }}</strong></li>
+                                <li>Amount: <strong>₹{{ booking.booking_amount }}</strong></li>
+                                <li>Payment: <strong>{{ booking.payment_mode }}</strong></li>
+                                <li>Status: <strong>{{ booking.payment_status }}</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="/userbookings" class="btn btn-primary btn-lg mr-3">View My Bookings</a>
+                    <a href="/" class="btn btn-outline-primary btn-lg">Book Another Car</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

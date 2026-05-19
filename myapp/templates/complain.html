@@ -1,0 +1,46 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Make Complaint - Car Rental{% endblock %}
+{% block body %}
+
+<!-- Page Header -->
+<div class="container-fluid page-header" style="margin-top:5px;">
+    <h1 class="display-3 text-uppercase text-white mb-3">Make a Complaint</h1>
+</div>
+
+<!-- Contact Form -->
+<div class="container-fluid py-5">
+    <div class="container pt-5 pb-3">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="contact-form bg-light p-5">
+                    <form action="/submitcomplain" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Select Vehicle:</label>
+                                <select name="vehicle" class="form-control" required>
+                                    <option value="">Choose vehicle</option>
+                                    {% for v in vehicles %}
+                                    <option value="{{v.id}}">{{v.company}} {{v.model_name}}</option>
+                                    {% endfor %}
+                                </div>
+                            <div class="col-md-6 form-group">
+                                <label>Subject:</label>
+                                <input type="text" name="subject" class="form-control" required>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label>Description:</label>
+                                <textarea name="description" rows="5" class="form-control" required placeholder="Describe your complaint..."></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary py-3 px-5">Submit Complaint</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

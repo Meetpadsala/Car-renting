@@ -1,0 +1,73 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Car Listing - Car Rental {% endblock %}
+{% block body %}
+
+
+     <!-- Page Header Start -->
+    <div class="container-fluid page-header" style="margin-top:5px;">
+        <h1 class="display-3 text-uppercase text-white mb-3">Vehicle Listing</h1>
+    </div>
+    <!-- Page Header Start -->
+
+<!-- Rent A Car Start -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <h1 class="display-4 text-uppercase text-center mb-5">View All Vehicles</h1>
+            <div class="row">
+{% for cd in allcardata %}
+                <div class="col-lg-4 col-md-6 mb-2">
+                    <div class="rent-item mb-4">
+                        <img class="mb-4 p-4" src="{% if cd.model_photo %}{{ cd.model_photo.url }}{% else %}{% static 'img/car-rent-1.png' %}{% endif %}" height="200px" alt="">
+                        <h4 class="text-uppercase mb-4">{{cd.company}} {{cd.model_name}}</h4>
+
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="px-2">
+                                <i class="fa fa-car text-primary mr-1"></i>
+                                <span>{{cd.model_year}}</span>
+                            </div>
+                            <div class="px-2 border-left ">
+                                <i class="fa fa-map-marker text-primary mr-1"></i>
+                                <span>{{cd.area}}</span>
+                            </div>
+                            <div class="px-2 border-left">
+                                <i class="fa fa-star text-warning mr-1"></i>
+                                <span>{{ cd.avg_rating|floatformat:1|default:"N/A" }}/5 ({{ cd.num_reviews|default:0 }} reviews)</span>
+                            </div>
+                        </div>
+
+                        <a class="btn btn-primary px-3" href="/viewcar/{{cd.id}}">&#8377;{{cd.base_rent_perday}}/Day</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pagination ml-5 mt-5">
+                <span class="step-links">
+                  <span class="current">
+                    Page {{ allcardata.number }} of {{ allcardata.paginator.num_pages }} .
+                  </span>
+
+                  {% if allcardata.has_previous %}
+                  <a href="?page=1" class="btn btn-primary active">&laquo;</a>
+                  {% endif %}
+
+                  {% for i in allcardata.paginator.page_range %}
+                  <span class="{% if allcardata.number == i %}current{% endif %}">
+                    <a href="?page={{ i }}" class="btn btn-primary active">{{ i }}</a>
+                  </span>
+                  {% endfor %}
+
+                  {% if allcardata.has_next %}
+                  <a href="?page={{ allcardata.paginator.num_pages }}" class="btn btn-primary active">&raquo;</a>
+                  {% endif %}
+
+                </span>
+              </div>
+        </div>
+    </div>
+
+
+    <!-- Rent A Car End -->
+
+{% endblock %}
