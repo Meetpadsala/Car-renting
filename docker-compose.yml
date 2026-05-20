@@ -16,7 +16,7 @@ services:
 
   web:
     image: car-renting:latest
-    conteiner_name: car-app
+    container_name: car-app
     restart: always
     ports:
       - "8000:8000"
