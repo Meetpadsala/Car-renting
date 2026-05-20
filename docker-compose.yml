@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mysql
+      MYSQL_DATABASE: mydb
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
