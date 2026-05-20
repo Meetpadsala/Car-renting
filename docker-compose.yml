@@ -25,6 +25,6 @@ services:
         condition: service_healthy
     command: python manage.py runserver 0.0.0.0:8000
 
-  volumes:
-    mysql_data:
+volumes:
+  mysql_data:
       
